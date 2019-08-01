@@ -16,6 +16,8 @@ summary_info_in_out <- function(df){
     # Average age in years of animals leaving the AAC
     avg_age_out = mean(df$age_upon_outcome_.years)
     
+      
+    
   )
 }
 
@@ -35,7 +37,18 @@ summary_info_in <- function(df){
     
     # The number of animals that came into the AAc in the dataset
     in_count = df %>% 
-      nrows()
+      nrow(),
+    
+    # ID of the animal who has been taken into the AAC most
+    # frequently
+    freq_id = df %>% 
+      group_by(animal_id) %>% 
+      mutate(count = length(animal_id)) %>% 
+      ungroup %>% 
+      filter(count == max(count, na.rm = T)) %>% 
+      select(animal_id, animal_type, breed, count) %>% 
+      unique() %>% 
+      pull(animal_id)
   )
 }
 
