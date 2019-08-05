@@ -1,27 +1,52 @@
-library(dplyr)
-
-in_df <- read.csv("../data/aac_intakes.csv", stringsAsFactors = F)
-out_df <- read.csv("../data/aac_outcomes.csv", stringsAsFactors = F)
-in_out_df <- read.csv("../data/aac_intakes_outcomes.csv", stringsAsFactors = F)
-
 summary_info_in_out <- function(df){
+  
+  #forming the return list
   return_list <- list(
     
     # Average time that an animal spends in the AAC
-    avg_time_in_shelter_days <- mean(df$time_in_shelter_days),
+    avg_time_in_shelter_days = mean(df$time_in_shelter_days),
     
     # Average age in years of animals coming into the AAC
     avg_age_in = mean(df$age_upon_intake_.years),
     
     # Average age in years of animals leaving the AAC
-    avg_age_out = mean(df$age_upon_outcome_.years)
+    avg_age_out = mean(df$age_upon_outcome_.years),
     
-      
+    # The animal type with the longest average time in AAC
+    longest_avg_time_animal = df %>% 
+      group_by(animal_type) %>% 
+      mutate(time = mean(time_in_shelter_days)) %>% 
+      ungroup() %>% 
+      filter(time == max(time, na.rm = T)) %>% 
+      pull(animal_type) %>% 
+      unique(),
+    
+    # The animal type with the shortest average time in AAC
+    shortest_avg_time_animal = df %>% 
+      group_by(animal_type) %>% 
+      mutate(time = mean(time_in_shelter_days)) %>% 
+      ungroup() %>% 
+      filter(time == min(time, na.rm = T)) %>% 
+      pull(animal_type) %>% 
+      unique()
     
   )
 }
 
 summary_info_in <- function(df){
+  
+  # ID of the animal who has been taken into the AAC most
+  # frequently
+  freq_case_id = df %>% 
+    group_by(animal_id) %>% 
+    mutate(count = length(animal_id)) %>% 
+    ungroup %>% 
+    filter(count == max(count, na.rm = T)) %>% 
+    select(animal_id, animal_type, breed, count) %>% 
+    unique() %>% 
+    pull(animal_id)
+  
+  #Forming the return list
   return_list <- list(
     
     # The animal type that is most often taken in by
@@ -39,16 +64,42 @@ summary_info_in <- function(df){
     in_count = df %>% 
       nrow(),
     
-    # ID of the animal who has been taken into the AAC most
+    # The name of the animal who has been taken into the AAC most
     # frequently
-    freq_id = df %>% 
-      group_by(animal_id) %>% 
+    freq_case_name = df %>% 
+      filter(animal_id == freq_case_id) %>% 
+      pull(name) %>% 
+      unique(),
+    
+    # The animal_type of the animal who has been taken into the AAC
+    # most frequently
+    freq_case_animal = df %>% 
+      filter(animal_id == freq_case_id) %>% 
+      pull(animal_type) %>% 
+      unique(),
+    
+    # The breed of the animal who has been taken into the AAC
+    # most frequently
+    freq_case_breed = df %>% 
+      filter(animal_id == freq_case_id) %>% 
+      pull(breed) %>% 
+      unique(),
+    
+    # The sex of the animal who has been taken into the AAC
+    # most frequently
+    freq_case_sex = df %>% 
+      filter(animal_id == freq_case_id) %>% 
+      pull(sex_upon_intake) %>% 
+      unique(),
+    
+    # The number of times the animal who has been taken into the AAC
+    # most frequently has been taken into the AAC
+    freq_case_count = df %>% 
+      filter(animal_id == freq_case_id) %>% 
       mutate(count = length(animal_id)) %>% 
-      ungroup %>% 
-      filter(count == max(count, na.rm = T)) %>% 
-      select(animal_id, animal_type, breed, count) %>% 
-      unique() %>% 
-      pull(animal_id)
+      pull(count) %>% 
+      unique()
+    
   )
 }
 
@@ -91,16 +142,25 @@ summary_info_out <- function(df){
       filter(out_percent == max(out_percent, na.rm = T)) %>% 
       pull(animal_type),
     
-    # The animal type that is most likely to be
-    # euthanized
+    # The percent likelihood of the animal type that is
+    # most likely to be adopted is to be adopted
+    most_adopted_perc = out_prop_df %>% 
+      filter(outcome_type == "Adoption") %>% 
+      filter(out_percent == max(out_percent, na.rm = T)) %>% 
+      pull(out_percent),
+    
+    # The percent likelihood of the animal type that is
+    # most likely to be euthanized is to be euthanized
     most_euthanized_animal = out_prop_df %>% 
       filter(outcome_type == "Euthanasia") %>% 
       filter(out_percent == max(out_percent)) %>% 
-      pull(animal_type)
+      pull(animal_type),
+    
+    # The greatet percentage of an animal tupe
+    most_euthanized_perc = out_prop_df %>% 
+      filter(outcome_type == "Euthanasia") %>% 
+      filter(out_percent == max(out_percent)) %>% 
+      pull(out_percent)
   )
 }
-
-out_info <- summary_info_out(out_df)
-in_info <- summary_info_in(in_df)
-in_out_info <- summary_info_in_out(in_out_df)
 
