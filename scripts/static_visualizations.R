@@ -7,7 +7,7 @@ in_out_df <- read.csv("../data/aac_intakes_outcomes.csv", stringsAsFactors = F)
 
 age_and_time_in_AAC<- function(df) {
   ggplot(df, aes(age_upon_intake_.days., time_in_shelter_days))+
-    geom_jitter(color = animal_type)
+    geom_jitter()
 }
 
 age_time_AAC <- age_and_time_in_AAC(in_out_df)

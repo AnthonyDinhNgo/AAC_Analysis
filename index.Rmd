@@ -20,4 +20,20 @@ in_info <- summary_info_in(in_df)
 in_out_info <- summary_info_in_out(in_out_df)
 ```
 
+# Preiminary Information
+
+## Why We're Looking at the Austin Animal Shelter Data
+
+The Austin Animal Shelter is the largest no-kill animal shelter in the United States
+
+## Where we got our data
+
+Kaggle
+
+## What we want to learn about the Austin Animal Shelter
+
+# Analysis
+## Summary Analysis
+## Grouped Analysis
+# Visualizations
 
