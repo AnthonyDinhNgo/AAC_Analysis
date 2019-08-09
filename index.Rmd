@@ -22,18 +22,19 @@ in_out_info <- summary_info_in_out(in_out_df)
 
 # Preiminary Information
 
-## Why We're Looking at the Austin Animal Shelter Data
+## Why I'm Looking at the Austin Animal Shelter Data
 
-The Austin Animal Shelter is the largest no-kill animal shelter in the United States
+Austin Texas is the largest No-Kill community in the United States, provider of a large and frequently updated database, and home to the Austin Animal Shelter. As an avid believer in adopting animals from shelter's rather than from breeders, I wanted to see what trends and patterns there may be in the intake and outcomes of animals in the Austin Animal Shelter. 
 
-## Where we got our data
+## Where I got the data
 
-Kaggle
+The Austin Animal Shelter maintains a large dataset of all the animals coming into the Austin Animal Shelter and has been maintaing this dataset since October 1st, 2013. 
 
-## What we want to learn about the Austin Animal Shelter
+## What I want to learn about the Austin Animal Shelter
 
 # Analysis
 ## Summary Analysis
 ## Grouped Analysis
 # Visualizations
+# Resources
 
