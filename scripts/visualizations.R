@@ -18,9 +18,17 @@ ggplotly2 <- function(plot){
 # shelter (in days)
 scatter <- function(in_out_df, animal, lower_year, upper_year, outcome){
   df <- in_out_df %>% 
-    filter(animal_type %in% animal, intake_year >= lower_year, intake_year <= upper_year, outcome_type == outcome)
+    filter(
+      animal_type %in% animal,
+      intake_year >= lower_year,
+      intake_year <= upper_year,
+      outcome_type == outcome)
   
-  ggplot(df, aes(x = age_upon_intake_.years., y = time_in_shelter_days, color = animal_type))+
+  ggplot(df, 
+         aes(
+           x = age_upon_intake_.years.,
+           y = time_in_shelter_days,
+           color = animal_type))+
     geom_point(aes(text=sprintf("Animal: %s
                                 Breed: %s
                                 Sex: %s
@@ -33,7 +41,9 @@ scatter <- function(in_out_df, animal, lower_year, upper_year, outcome){
                                 round(time_in_shelter_days, 2))), alpha = 0.4)+
     xlab("Age (in years)")+
     ylab("Time in Shelter (in days)")+
-    ggtitle(paste("Age of", toString(animal), "at Intake vs Total Continuous Time in Shelter"))+
+    ggtitle(paste("Age of",
+                  toString(animal),
+                  "at Intake vs Total Continuous Time in Shelter"))+
     theme_bw()
 }
 
@@ -58,31 +68,56 @@ time_series <- function(in_out_df, animal, sep){
       sep_freq)
   
   if(sep){
-    ggplot(df, aes(x = date, y = sep_freq, color = animal_type, group = animal_type))+
-      geom_point(aes(text=sprintf("Date: %s<br>Animal: %s<br>Adoptions: %s", date, animal_type, sep_freq))) + geom_line(aes(text = ""))+
+    ggplot(df, 
+           aes(
+             x = date,
+             y = sep_freq,
+             color = animal_type,
+             group = animal_type))+
+      geom_point(
+        aes(
+          text=sprintf(
+            "Date: %s<br>Animal: %s<br>Adoptions: %s",
+            date, animal_type, sep_freq)))+
+      geom_line(aes(text = ""))+
       scale_x_discrete("Date",
-                       breaks = c("2014-01", "2015-01", "2016-01", "2017-01", "2018-01"),
+                       breaks = c("2014-01",
+                                  "2015-01",
+                                  "2016-01",
+                                  "2017-01",
+                                  "2018-01"),
                        labels = c("2014-01" = "2014",
                                   "2015-01" = "2015",
                                   "2016-01" = "2016",
                                   "2017-01" = "2017",
                                   "2018-01" = "2018"))+
       ylab("Adoptions")+
-      ggtitle(paste(toString(animal), "Adoption Trends between 2014 and 2018"))+
+      ggtitle(paste(toString(animal),
+                    "Adoption Trends between 2014 and 2018"))+
       theme_bw()
     
   } else {
     ggplot(df, aes(x = date, y = total_freq, group = animal_type))+
-      geom_point(aes(text=sprintf("Date: %s<br>Total Adoptions: %s", date, total_freq))) + geom_line( aes(text = ""))+
+      geom_point(
+        aes(
+          text=sprintf("Date: %s<br>Total Adoptions: %s",
+                       date, total_freq))) +
+      geom_line( aes(text = ""))+
       scale_x_discrete("Date",
-                       breaks = c("2014-01", "2015-01", "2016-01", "2017-01", "2018-01"),
+                       breaks = c("2014-01",
+                                  "2015-01",
+                                  "2016-01",
+                                  "2017-01",
+                                  "2018-01"),
                        labels = c("2014-01" = "2014",
                                   "2015-01" = "2015",
                                   "2016-01" = "2016",
                                   "2017-01" = "2017",
                                   "2018-01" = "2018"))+
       ylab("Total Adoptions")+
-      ggtitle(paste("Total", toString(animal), "Adoption Trends between 2014 and 2018"))+
+      ggtitle(paste("Total",
+                    toString(animal),
+                    "Adoption Trends between 2014 and 2018"))+
       theme_bw()
   }
 }
@@ -91,6 +126,162 @@ time_series <- function(in_out_df, animal, sep){
 # Radar chart displaying the outcome rates of all breeds of a certain
 # animal type (1 radio 2selectors)
 
-radar <- function(in_out_df, breed1, breed2, animal){
+radar <- function(in_out_df, breed1_name, breed2_name, animal, outcome){
+  breed1 <- breed1_name
+  if(breed1 == "All"){
+    breed1 <- in_out_df %>% 
+      filter(animal_type == animal) %>% 
+      select(breed) %>% 
+      unique() %>% 
+      pull()
+  }
+  
+  breed2 <- breed2_name
+  if(breed2 == "All"){
+    breed2 <- in_out_df %>% 
+      filter(animal_type == animal) %>%
+      select(breed) %>% 
+      unique() %>% 
+      pull()
+  }
+  
+  title_var <- paste("Outcome Proportions")
+  thet <-  c(
+    "Adoption",
+    "Return to Owner",
+    "Euthanasia",
+    "Died",
+    "Transfer"
+  )
+  df1 <- NULL
+  df2 <- NULL
 
+  if(outcome){
+    df1 <- in_out_df %>% 
+      filter(animal_type == animal, breed %in% breed1) %>%
+      mutate(
+             adoption_prop = (sum(outcome_type == "Adoption")
+                              /length(animal_type)),
+             return_to_owner_prop = (sum(outcome_type == "Return to Owner")
+                                     /length(animal_type)),
+             euthanasia_prop = (sum(outcome_type == "Euthanasia")
+                                /length(animal_type)),
+             died_prop = (sum(outcome_type == "Died")
+                          /length(animal_type)),
+             transfer_prop = (sum(outcome_type == "Transfer")
+                              /length(animal_type))
+      ) %>% 
+      select(
+        adoption_prop,
+        return_to_owner_prop,
+        euthanasia_prop,
+        died_prop,
+        transfer_prop
+             ) %>% 
+      unique()
+    
+    df2 <- in_out_df %>% 
+      filter(animal_type == animal, breed %in% breed2) %>%
+      mutate(
+        adoption_prop = (sum(outcome_type == "Adoption")
+                         /length(animal_type)),
+        return_to_owner_prop = (sum(outcome_type == "Return to Owner")
+                                /length(animal_type)),
+        euthanasia_prop = (sum(outcome_type == "Euthanasia")
+                           /length(animal_type)),
+        died_prop = (sum(outcome_type == "Died")
+                     /length(animal_type)),
+        transfer_prop = (sum(outcome_type == "Transfer")
+                         /length(animal_type))
+      ) %>% 
+      select(
+        adoption_prop,
+        return_to_owner_prop,
+        euthanasia_prop,
+        died_prop,
+        transfer_prop
+             ) %>% 
+      unique()
+  } else {
+    thet <- c(
+      "Stray",
+      "Public Assist",
+      "Owner Surrender",
+      "Euthanasia Request",
+      "Wildlife"
+    )
+    
+    title_var <- paste("Intake Proportions")
+    
+    df1 <- in_out_df %>% 
+      filter(animal_type == animal, breed %in% breed1) %>%
+      mutate(
+        stray_prop = (sum(intake_type == "Stray")
+                      /length(animal_type)),
+        public_assist_prop = (sum(intake_type == "Public Assist")
+                              /length(animal_type)),
+        owner_surr_prop = (sum(intake_type == "Owner Surrender")
+                           /length(animal_type)),
+        euth_req_prop = (sum(intake_type == "Euthanasia Request")
+                         /length(animal_type)),
+        wild_prop = (sum(intake_type == "Wildlife")
+                     /length(animal_type))
+      ) %>% 
+      select(
+        stray_prop,
+        public_assist_prop,
+        owner_surr_prop,
+        euth_req_prop,
+        wild_prop
+      ) %>% 
+      unique()
+    
+    df2 <- in_out_df %>% 
+      filter(animal_type == animal, breed %in% breed2) %>%
+      mutate(
+        stray_prop = (sum(intake_type == "Stray")
+                      /length(animal_type)),
+        public_assist_prop = (sum(intake_type == "Public Assist")
+                              /length(animal_type)),
+        owner_surr_prop = (sum(intake_type == "Owner Surrender")
+                           /length(animal_type)),
+        euth_req_prop = (sum(intake_type == "Euthanasia REquest")
+                         /length(animal_type)),
+        wild_prop = (sum(intake_type == "Wildlife")
+                     /length(animal_type))
+      ) %>% 
+      select(
+        stray_prop,
+        public_assist_prop,
+        owner_surr_prop,
+        euth_req_prop,
+        wild_prop
+      ) %>% 
+      unique()
+  }
+  
+  p <- plot_ly(
+    type = 'scatterpolar',
+    fill = 'toself'
+  ) %>%
+    add_trace(
+      r = as.numeric(as.vector(df1[1,])),
+      theta = thet,
+      name = breed1_name
+    )%>%
+    add_trace(
+      r = as.numeric(as.vector(df2[1,])),
+      theta = thet,
+      name = breed2_name
+    )%>%
+    layout(
+      title = title_var,
+      polar = list(
+        radialaxis = list(
+          visible = T,
+          range = c(0,1)
+        )
+      )
+    )
+  p
 }
