@@ -1,11 +1,7 @@
 library(ggplot2)
-library(ggradar)
 library(dplyr)
 library(plotly)
 
-in_df <- read.csv("../data/aac_intakes.csv", stringsAsFactors = F)
-out_df <- read.csv("../data/aac_outcomes.csv", stringsAsFactors = F)
-in_out_df <- read.csv("../data/aac_intakes_outcomes.csv", stringsAsFactors = F)
 ################################################################################
 # Function to convert ggplots to plotly in a standard format for the project
 ggplotly2 <- function(plot){
@@ -43,8 +39,9 @@ scatter <- function(in_out_df, animal, lower_year, upper_year, outcome){
     ylab("Time in Shelter (in days)")+
     ggtitle(paste("Age of",
                   toString(animal),
-                  "at Intake vs Total Continuous Time in Shelter"))+
-    theme_bw()
+                  "at Intake vs Days in Shelter"))+
+    theme_bw()+
+    scale_color_discrete(name = "Animal")
 }
 
 #G2#############################################################################
