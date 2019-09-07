@@ -91,7 +91,8 @@ time_series <- function(in_out_df, animal, sep){
       ylab("Adoptions")+
       ggtitle(paste(toString(animal),
                     "Adoption Trends between 2014 and 2018"))+
-      theme_bw()
+      theme_bw()+
+      scale_color_discrete(name = "Animal")
     
   } else {
     ggplot(df, aes(x = date, y = total_freq, group = animal_type))+
@@ -142,7 +143,7 @@ radar <- function(in_out_df, breed1_name, breed2_name, animal, outcome){
       pull()
   }
   
-  title_var <- paste("Outcome Proportions")
+  title_var <- paste(animal, "Outcome Proportions")
   thet <-  c(
     "Adoption",
     "Return to Owner",
@@ -208,7 +209,7 @@ radar <- function(in_out_df, breed1_name, breed2_name, animal, outcome){
       "Wildlife"
     )
     
-    title_var <- paste("Intake Proportions")
+    title_var <- paste(animal, "Intake Proportions")
     
     df1 <- in_out_df %>% 
       filter(animal_type == animal, breed %in% breed1) %>%
