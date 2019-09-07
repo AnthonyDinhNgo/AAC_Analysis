@@ -14,6 +14,8 @@ scatter_tab <- tabPanel(
   "Scatterplot",
   sidebarLayout(
     sidebarPanel = sidebarPanel(
+      div(class = "side",h2("Control Panel"),
+                                hr(),
       checkboxGroupInput("animal_list", label = h3("Animal Type"), 
                          choices = list("Dog" = "Dog", "Cat" = "Cat", "Bird" = "Bird", "Other" = "Other"),
                          selected = "Dog"),
@@ -27,11 +29,12 @@ scatter_tab <- tabPanel(
                                  "Euthanasia" = "Euthanasia",
                                  "Died"), 
                   selected = "Adoption")
+      )
       
     ),
     mainPanel = mainPanel(
       div(
-        class = "info-content",
+        class = "main",
         p("With this table, we want to be able to understand how age affects
             the value of a player. Below, we can see the distribution of the
             transfer fees of the different ages of players"),
@@ -46,7 +49,7 @@ scatter_tab <- tabPanel(
 time_tab <- tabPanel(
   "Time Series",
   sidebarLayout(
-    sidebarPanel = sidebarPanel(
+    sidebarPanel = sidebarPanel(div(class = "side",
       h2("Control Panel"),
       hr(),
       checkboxInput("sep", label = "Separate Lines", value = T),
@@ -55,10 +58,11 @@ time_tab <- tabPanel(
                          choices = list("Dog" = "Dog", "Cat" = "Cat", "Bird" = "Bird", "Other" = "Other"),
                          selected = "Dog")
     )
+    )
   ,
   mainPanel = mainPanel(
     div(
-      class = "info-content",
+      class = "main",
       p("With this table, we want to be able to understand how age affects
         the value of a player. Below, we can see the distribution of the
         transfer fees of the different ages of players"),
@@ -73,7 +77,7 @@ time_tab <- tabPanel(
 radar_tab <- tabPanel(
   "Dog Radar",
   sidebarLayout(
-    sidebarPanel = sidebarPanel(
+    sidebarPanel = sidebarPanel(div(
       h2("Control Panel"),
       radioButtons("outcome_intake", label = h3("Radar Properties"),
                    choices = list("Intakes" = F, "Outcomes" = T), 
@@ -194,8 +198,9 @@ radar_tab <- tabPanel(
                                  "Persian" = "Persian",
                                  "Tonkinese Mix" = "Tonkinese Mix"),
                   selected = "Domestic Shorthair Mix")
+    )
     ),
-    mainPanel = mainPanel(class = "info-content",
+    mainPanel = mainPanel(class = "main",
                           p("Content"),
                           plotlyOutput("p3_dog"),
                           plotlyOutput("p3_cat")
@@ -204,8 +209,9 @@ radar_tab <- tabPanel(
 )
 #UI#############################################################################
 ui <- fluidPage(
+  includeCSS("www/intro.CSS"),
   navbarPage(
-    "Austin Animal Shelter",
+    "Austin Animal Shelter",id = "navbar",collapsable=F,
     intro_page,
     scatter_tab,
     time_tab,

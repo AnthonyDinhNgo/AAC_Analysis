@@ -4,12 +4,6 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 source("scripts/visualizations.R")
-data <- read.csv(
-  file =
-    "data/aac_intakes_outcomes.csv",
-  encoding = "UTF-8",
-  stringsAsFactor = FALSE
-)
 
 #server function for sunshine app
 server <- function(input, output){
