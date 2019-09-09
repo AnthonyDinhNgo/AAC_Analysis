@@ -211,7 +211,7 @@ radar_tab <- tabPanel(
 ui <- fluidPage(
   includeCSS("www/intro.CSS"),
   navbarPage(
-    "Austin Animal Shelter",id = "navbar",collapsable=F,
+    htmlOutput("banner_pic"),id = "navbar",collapsable=F,
     intro_page,
     scatter_tab,
     time_tab,

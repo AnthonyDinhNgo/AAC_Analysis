@@ -50,5 +50,8 @@ server <- function(input, output){
   output$p3_cat <- renderPlotly({
     radar(data(), cat1(), cat2(), "Cat", outcome_or_intake())
   })
+  
+###############################################################################
+  output$banner_pic <-renderText({c('<img src="',"www/Icon_4_white.png",'">')})
 }
 
