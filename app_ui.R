@@ -14,7 +14,12 @@ intro_page <- tabPanel(
       h3(span(class = "border","by Anthony Ngo"))
       )
       ),
-    strong("[Intro Placeholder]")
+    div(class = "intro_content",
+        h1("Purpose"),
+        p(""),
+        h1("Source"),
+        p("I obtained this data from ")
+    )
     )
   #)
 

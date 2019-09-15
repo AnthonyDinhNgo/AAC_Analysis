@@ -37,7 +37,7 @@ html, body {
 }
 
 h1 span.border{
-  background-color: #111;
+  background-color: #000000;
   color: #fff;
   font-size: 25px;
   letter-spacing: 10px;
@@ -45,7 +45,7 @@ h1 span.border{
 }
 
 h3 span.border{
- background-color: #111;
+ background-color: #000000;
  color: #fff;
  font-size: 15px;
  letter-spacing: 20px;
