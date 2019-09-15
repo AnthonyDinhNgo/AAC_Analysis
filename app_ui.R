@@ -1,20 +1,30 @@
 library(shiny)
 library(plotly)
-
+library(jpeg)
+library(shinyWidgets)
 
 #Intro##########################################################################
 intro_page <- tabPanel(
-  "Intro",
-  titlePanel("Intro page"),
-  em("[Intro Placeholder]")
+  strong("Intro"),
+    div(style = "height: 100%; width 100%;",
+    titlePanel(div(class = "title",
+      h1(strong("Analysis on the")),
+      h1(strong("Austin Animal Center")),
+      h3("by Anthony Ngo"),
+      br()
+      )
+      ),
+    strong("[Intro Placeholder]")
+    )
   )
 
 #scatter_tab####################################################################
 scatter_tab <- tabPanel(
-  "Scatterplot",
+  strong("Explore Pets"),
+  div(class = "content",
   sidebarLayout(
     sidebarPanel = sidebarPanel(
-      div(class = "side",h2("Control Panel"),
+      div(class = "side",h2(strong("Control Panel")),
                                 hr(),
       checkboxGroupInput("animal_list", label = h3("Animal Type"), 
                          choices = list("Dog" = "Dog", "Cat" = "Cat", "Bird" = "Bird", "Other" = "Other"),
@@ -42,17 +52,19 @@ scatter_tab <- tabPanel(
         plotlyOutput("p1")
       )
     )
-  )
+  ))
 )
 
 #time_tab#######################################################################
 time_tab <- tabPanel(
-  "Time Series",
+  strong("Adoptions over Time"),
+  div(class = "content",
   sidebarLayout(
     sidebarPanel = sidebarPanel(div(class = "side",
-      h2("Control Panel"),
+      h2(strong("Control Panel")),
       hr(),
-      checkboxInput("sep", label = "Separate Lines", value = T),
+      h3("Separate Lines"),
+      switchInput("sep", label = "", value = T),
       hr(),
       checkboxGroupInput("animal_list_time", label = h3("Animal Type"), 
                          choices = list("Dog" = "Dog", "Cat" = "Cat", "Bird" = "Bird", "Other" = "Other"),
@@ -71,14 +83,16 @@ time_tab <- tabPanel(
       )
     )
   )
+  )
 )
 
 #radar_tab######################################################################
 radar_tab <- tabPanel(
-  "Dog Radar",
+  strong("Dogs Vs Cats"),
+  div(class = "content",
   sidebarLayout(
     sidebarPanel = sidebarPanel(div(
-      h2("Control Panel"),
+      h2(strong("Control Panel")),
       radioButtons("outcome_intake", label = h3("Radar Properties"),
                    choices = list("Intakes" = F, "Outcomes" = T), 
                    selected = F),
@@ -206,12 +220,13 @@ radar_tab <- tabPanel(
                           plotlyOutput("p3_cat")
                           )
   )
+  )
 )
 #UI#############################################################################
 ui <- fluidPage(
   includeCSS("www/intro.CSS"),
   navbarPage(
-    htmlOutput("banner_pic"),id = "navbar",collapsable=F,
+    strong("Austin Animal Shelter"),id = "navbar",collapsable=F,
     intro_page,
     scatter_tab,
     time_tab,

@@ -1,3 +1,4 @@
+setwd("~/Repositories/AAC_Analysis")
 # load the necessary package
 library(shiny)
 # load ui and server files

@@ -6,7 +6,9 @@ library(plotly)
 # Function to convert ggplots to plotly in a standard format for the project
 ggplotly2 <- function(plot){
   ggplotly(plot, tooltip = "text") %>%
-    style(hoverlabel = list(bgcolor = "white"), hoveron = "text")
+    style(hoverlabel = list(bgcolor = 'rgba(0,0,0,0)'), hoveron = "text") %>% 
+    layout(paper_bgcolor = 'rgba(0,0,0,0)')%>% 
+    layout(plot_bgcolor='rgba(0,0,0,0)')
 }
 
 #G1#############################################################################

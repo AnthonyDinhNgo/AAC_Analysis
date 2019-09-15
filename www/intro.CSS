@@ -1,26 +1,76 @@
 :root{
   --accent-color: #f0bd64;
   --background-color: #f5f5f5;
-  --alt-background-color: #fae3ba;
+  /* --alt-background-color: #fae3ba; */
+  --alt-background-color: #fbebce;
 }
 
 
 body {
-  background-color: #fae3ba;
+  background-color: var(--background-color);
   font-family: "Helvetica";
 }
 
-#navbar{
-  background-color: #f0bd64
+.title{
+  height: 100%;
+  margin-left: -50px;
+  margin-right: -50px;
+  padding-top: 65px;
+  /* padding-bottom: 300px; */
+  vertical-align: middle;
+  text-align: center;
+  background-image: url("intro_banner.JPG");
+  background-repeat: no-repeat;
+}
+.well {
+  background-color: #fbebce;
+  color: var(--accent-color);
+  font-size: 125%;
 }
 
-.navbar { background-color: #f0bd64;}
-.navbar-default .navbar-brand{color: white;}
-.tab-panel{ background-color: #f0bd64; color: white; width: 100%; overflow: hidden;}
+.well hr{
+  border-color: #ecd5ad;
+  background-color: #959595}
+.well h2{
+  filter: brightness(0.85);
+  display: flex;
+}
+
+
+/* #navbar{
+  background-color: #f0bd64;
+  color: white;
+} */
+
+.navbar-default .navbar-nav > li > a {color:var(--background-color);}
+
+.navbar { background-color: var(--accent-color); width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    position: fixed;
+    color: var(--background-color);
+  }
+
+.navbar-default .navbar-brand{color: var(--background-color);}
+.tab-panel{
+  background-color: var(--accent-color);
+  color: var(--background-color);
+  width: 100%;
+  overflow: hidden;
+}
 
 .navbar-nav li a:hover, .navbar-nav > .active > a {
-                        color: #fff !important;
-
-                        background-color:#fae3ba !important;
-                        background-image: none !important;
+                        color: var(--accent-color) !important;
+                        background-color:#fbebce !important;
                         }
+.content{
+  padding-top: 65px;
+
+}
+
+
+.main{
+}
