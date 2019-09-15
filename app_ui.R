@@ -6,17 +6,17 @@ library(shinyWidgets)
 #Intro##########################################################################
 intro_page <- tabPanel(
   strong("Intro"),
-    div(style = "height: 100%; width 100%;",
-    titlePanel(div(class = "title",
+    #div(class = "intro",
+    #titlePanel(
+      div(class = "title",
       h1(strong("Analysis on the")),
       h1(strong("Austin Animal Center")),
-      h3("by Anthony Ngo"),
-      br()
-      )
+      h3("by Anthony Ngo")
+   #   )
       ),
     strong("[Intro Placeholder]")
     )
-  )
+  #)
 
 #scatter_tab####################################################################
 scatter_tab <- tabPanel(
