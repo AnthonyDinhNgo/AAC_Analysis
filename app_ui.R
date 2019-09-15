@@ -8,11 +8,11 @@ intro_page <- tabPanel(
   strong("Intro"),
     #div(class = "intro",
     #titlePanel(
-      div(class = "title",
-      h1(strong("Analysis on the")),
-      h1(strong("Austin Animal Center")),
-      h3("by Anthony Ngo")
-   #   )
+      div(class = "title",div(class = "title_text",
+      h1(strong(span(class = "border","Analysis on the"))),
+      h1(strong(span(class = "border","Austin Animal Center"))),
+      h3(span(class = "border","by Anthony Ngo"))
+      )
       ),
     strong("[Intro Placeholder]")
     )
