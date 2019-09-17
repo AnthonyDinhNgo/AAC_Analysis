@@ -37,15 +37,16 @@ html, body {
     color: #ffffff;
 }
 
-.intro_content{
+.info_content{
   margin-left: 7%;
 }
 
-.intro_content p{
+.info_content p{
   color: #676767;
+  font-size: 20px;
 }
 
-.intro_content h1{
+.info_content h1{
   color: var(--accent-color);
   filter: brightness(0.95);
   margin-top: 3%;
@@ -85,7 +86,8 @@ h3 span.border{
 
 .navbar {
   background-color: var(--accent-color);
-  border-color: var(--accent-color);
+  /* border-color: var(--accent-color); */
+  border-color: rgba(0,0,0,0);
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -94,6 +96,13 @@ h3 span.border{
   z-index: 9999;
   position: fixed;
   color: var(--background-color);
+}
+
+.navbar img{
+  position: relative;
+  top: -40%;
+  /* padding-right: 30%; */
+  height: 40px;
 }
 
 .navbar-default .navbar-brand{color: var(--background-color);}

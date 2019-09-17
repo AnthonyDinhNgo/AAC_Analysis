@@ -14,11 +14,19 @@ intro_page <- tabPanel(
       h3(span(class = "border","by Anthony Ngo"))
       )
       ),
-    div(class = "intro_content",
+    div(class = "info_content",
         h1(strong("Purpose")),
         p(""),
-        h1(strong("Source")),
-        p("I obtained this data from ")
+        h1(strong("The Data")),
+        p("I obtained this data from ", 
+          a(href = "https://www.kaggle.com/aaronschlegel/austin-animal-center-shelter-intakes-and-outcomes",
+                                        strong("Kaggle")),
+          "on the 27th of July, 2019."),
+        p("Aaron Schlegel, a data analyst based in Seattle, Washington, maintains
+          this data. However, Schelgel derived this data from",
+          a(href = "https://data.austintexas.gov/",
+            strong("the Official City of Austin Open Data Portal")),"."
+          )
     )
     )
   #)
@@ -227,14 +235,20 @@ radar_tab <- tabPanel(
   )
   )
 )
+#analysis_tab###################################################################
+analysis_tab <- tabPanel(strong("Analysis"))
 #UI#############################################################################
 ui <- fluidPage(
   includeCSS("www/intro.CSS"),
   navbarPage(
-    strong("Austin Animal Shelter"),id = "navbar",collapsable=F,
+    a(href = "http://anthonydinhngo.github.io",
+      style = "text-decoration: none;",
+      img(src = 'Icon_4_white.png')
+      ),id = "navbar",collapsable=F,
     intro_page,
     scatter_tab,
     time_tab,
-    radar_tab
+    radar_tab,
+    analysis_tab
   )
 )
