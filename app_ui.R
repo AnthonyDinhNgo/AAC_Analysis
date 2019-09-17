@@ -15,9 +15,9 @@ intro_page <- tabPanel(
       )
       ),
     div(class = "intro_content",
-        h1("Purpose"),
+        h1(strong("Purpose")),
         p(""),
-        h1("Source"),
+        h1(strong("Source")),
         p("I obtained this data from ")
     )
     )
