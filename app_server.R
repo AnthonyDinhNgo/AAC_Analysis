@@ -4,15 +4,19 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 source("scripts/visualizations.R")
+source("scripts/aggregate_table.R")
 
 #server function for sunshine app
 server <- function(input, output){
-  data <- reactive({read.csv(
+  data <- read.csv(
     file =
       "data/aac_intakes_outcomes.csv",
     encoding = "UTF-8",
     stringsAsFactor = FALSE
-  )})
+  )
+  
+  
+  output$table <- renderDataTable(ag_table(data))
   
   ################################################################################
   
@@ -22,7 +26,7 @@ server <- function(input, output){
   outcome <- reactive({input$out})
   
   output$p1 <- renderPlotly({
-      ggplotly2(scatter(data(), animal_list(), lower_year(), upper_year(), outcome()))
+      ggplotly2(scatter(data, animal_list(), lower_year(), upper_year(), outcome()))
     }
   )
   
@@ -32,7 +36,7 @@ server <- function(input, output){
   sep <- reactive({input$sep})
   
   output$p2 <- renderPlotly({
-    ggplotly2(time_series(data(), animal_list_time(), sep()))
+    ggplotly2(time_series(data, animal_list_time(), sep()))
   })
   
 ################################################################################
@@ -44,11 +48,11 @@ server <- function(input, output){
   cat2 <- reactive({input$select_cat2})
   
   output$p3_dog <- renderPlotly({
-    radar(data(), dog1(), dog2(), "Dog", outcome_or_intake())
+    radar(data, dog1(), dog2(), "Dog", outcome_or_intake())
   })
   
   output$p3_cat <- renderPlotly({
-    radar(data(), cat1(), cat2(), "Cat", outcome_or_intake())
+    radar(data, cat1(), cat2(), "Cat", outcome_or_intake())
   })
   
 ###############################################################################

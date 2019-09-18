@@ -1,4 +1,24 @@
+library(dplyr)
+
 summary_info_in_out <- function(df){
+  
+  young_in_id <- df %>% 
+    filter(age_upon_intake_.years. == min(age_upon_intake_.years.)) %>% 
+    pull(animal_id_intake) %>% 
+    unique()
+  old_in_id <- df %>% 
+    filter(age_upon_intake_.years. == max(age_upon_intake_.years.)) %>% 
+    pull(animal_id_intake) %>% 
+    unique()
+  
+  young_out_id <- df %>% 
+    filter(age_upon_intake_.years. == min(age_upon_outcome_.years.)) %>% 
+    pull(animal_id_outcome) %>% 
+    unique()
+  old_out_id <- df %>% 
+    filter(age_upon_intake_.years. == max(age_upon_outcome_.years.)) %>% 
+    pull(animal_id_outcome) %>% 
+    unique()
   
   #forming the return list
   return_list <- list(
@@ -7,10 +27,10 @@ summary_info_in_out <- function(df){
     avg_time_in_shelter_days = mean(df$time_in_shelter_days),
     
     # Average age in years of animals coming into the AAC
-    avg_age_in = mean(df$age_upon_intake_.years),
+    avg_age_in = mean(df$age_upon_intake_.years.),
     
     # Average age in years of animals leaving the AAC
-    avg_age_out = mean(df$age_upon_outcome_.years),
+    avg_age_out = mean(df$age_upon_outcome_.years.),
     
     # The animal type with the longest average time in AAC
     longest_avg_time_animal = df %>% 
@@ -21,6 +41,14 @@ summary_info_in_out <- function(df){
       pull(animal_type) %>% 
       unique(),
     
+    longest_avg_time = df %>% 
+      group_by(animal_type) %>% 
+      mutate(time = mean(time_in_shelter_days)) %>% 
+      ungroup() %>% 
+      filter(time == max(time, na.rm = T)) %>% 
+      pull(time) %>% 
+      unique(),
+    
     # The animal type with the shortest average time in AAC
     shortest_avg_time_animal = df %>% 
       group_by(animal_type) %>% 
@@ -28,7 +56,18 @@ summary_info_in_out <- function(df){
       ungroup() %>% 
       filter(time == min(time, na.rm = T)) %>% 
       pull(animal_type) %>% 
-      unique()
+      unique(),
+    
+    shortest_avg_time = df %>% 
+      group_by(animal_type) %>% 
+      mutate(time = mean(time_in_shelter_days)) %>% 
+      ungroup() %>% 
+      filter(time == min(time, na.rm = T)) %>% 
+      pull(time) %>% 
+      unique(),
+    
+    in_out_count = df %>% 
+      nrow()
     
   )
 }
@@ -132,7 +171,7 @@ summary_info_out <- function(df){
   return_list <- list(
     
     # Number of outcomes there were in the dataset
-    out_count <- df %>% 
+    out_count = df %>% 
       nrow(),
       
     # The animal type that is most likely

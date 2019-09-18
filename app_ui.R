@@ -2,6 +2,31 @@ library(shiny)
 library(plotly)
 library(jpeg)
 library(shinyWidgets)
+source("scripts/summary_info.R")
+source("scripts/aggregate_table.R")
+
+
+#Summary variables##############################################################
+
+in_df <- read.csv(
+  file = "data/aac_intakes.csv",
+  encoding = "UTF-8",
+  stringsAsFactor = FALSE)
+
+out_df <- read.csv(
+  file = "data/aac_outcomes.csv",
+  encoding = "UTF-8",
+  stringsAsFactor = FALSE)
+
+in_out_df <- read.csv(
+  file = "data/aac_intakes_outcomes.csv",
+  encoding = "UTF-8",
+  stringsAsFactor = FALSE)
+
+info_in <- summary_info_in(in_df)
+info_out <- summary_info_out(out_df)
+info_in_out <- summary_info_in_out(in_out_df)
+
 
 #Intro##########################################################################
 intro_page <- tabPanel(
@@ -93,6 +118,49 @@ intro_page <- tabPanel(
           of my analysis is based on."
           ),
         h2("Preliminary Analysis"),
+        p("Between October of 2013 and April of 2018, there were ",
+          paste(formatC(info_in$in_count, big.mark=',')),
+          " animals taken in by the Austin Animal Center and",
+          paste(formatC(info_out$out_count, big.mark=',')), " animals that left
+          the shelter. Of these two groups, there were ", 
+          paste(formatC(info_in_out$in_out_count,big.mark=',')),
+          " animals that both entered and left the Austin Animal Center
+          within October of 2013 and April of 2018"),
+        p("I found that the type of animal that is most likely to be adopted
+          is a ", tolower(info_out$most_adopted_animal), " with an adoption
+          rate of ", info_out$most_adopted_perc, "% while the type of animal
+          that is most likely to be euthanized is ",
+          tolower(info_out$most_euthanized_animal), " with a euthanasia rate
+          of ", info_out$most_euthanized_perc, "% (This group includes animals
+          that aren't don't fall into one of the larger categories such as 
+          bats, hamsters, and rabbits)"),
+        p("The type of animal that is most frequently taken in by the AAC is 
+          a ", tolower(info_in$pop_animal_in), ".",
+          "There was one animal that was more frequently taken in by the AAC
+          than any other animal: a ",tolower(info_in$freq_case_sex), " ",
+          tolower(info_in$freq_case_breed), " named ", info_in$freq_case_name,
+        " who was taken into the Austin Animal Shelter ", 
+        em(info_in$freq_case_count, " different times.")),
+        p("Of all animals that entered and left the AAC between October of 2013
+          and April of 2018, the average number of days spent on the shelter is
+          ", round(info_in_out$avg_time_in_shelter_days),
+          " days. The type of animal that spends the least amount of time in the
+          shelter is ",
+          tolower(info_in_out$shortest_avg_time_animal), "with an average of ",
+          round(info_in_out$shortest_avg_time) ,
+          "days in the AAC, while the type of animal that tends to spend the 
+          greatest number of days in the shelter is a ",
+          tolower(info_in_out$longest_avg_time_animal),
+          "with an average of ", round(info_in_out$longest_avg_time), " days."),
+        p("The average age of an animal coming into the AAC is ",
+          round(info_in_out$avg_age_in, 2),
+          " years old while the average of an animal coming out of the AAC is ",
+          round(info_in_out$avg_age_out, 2), 
+          " years old."),
+        
+        h2("Aggregate Table"),
+
+        dataTableOutput("table"),
         
         br()
     )
