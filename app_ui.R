@@ -15,18 +15,86 @@ intro_page <- tabPanel(
       )
       ),
     div(class = "info_content",
-        h1(strong("Purpose")),
-        p(""),
-        h1(strong("The Data")),
+        h1("Purpose"),
+        p("I wanted to run exploratory data analysis on a dataset related to
+          something I'm passionate about. After looking around on a few portals 
+          and websites, I stumbled upon a dataset on Kaggle about the Austin 
+          Animal Center, a great No-Kill animal shelter based in Austin, Texas."),
+        p("This dataset worked wonderfully for what I wanted to do. The dataset
+          is well documented and has sufficient observations. More importantly,
+          however, I'm interested in what such data could imply or reveal. I'm
+          an advocate for adopting pets from animal shelters and pounds
+          as opposed to from breeders and puppy mills. According to the ",
+          a(href = "https://www.americanpetproducts.org/", strong("American Pet
+                                                                  Products
+                                                                  Association")),
+          "of the 44% of households that own dogs, 34% of those households 
+          adopted their dog from breeders while only 23% of those households
+          adopted their dog from either an animal shelter or human society.
+          Although people are allowed to adopt from wherever and whomever they
+          wish to adopt from, I believe that adopting from shelters, rescues, 
+          and humane societies is more beneficial to both pets and owners alike
+          and more people should adopt from shelters rather than from breeders."
+          
+          ),
+        p("Additionally, according to the",
+          a(href = "https://www.aspca.org/",
+            strong("American Society for the Prevention of Cruelty to Animals")),
+          " about 3.2 million shelter animals are adopted each year. However,",
+          em("6.5 million"), " pets are taken into animal shelters each year
+            and around ", em("1.5 million"), " are euthanized annually. Although
+            these numbers have declined since 2011, when there were 7.2 million
+            animals entering animal shelters and 2.6 million animals being
+            euthanized each year, I believe we should strive to decrease these
+            statistics until the number of adoptions exceed the number of animals
+            coming into animal shelters and the number of euthanized pets reaches
+            0."),
+        p("I want to explore the popularity of certain dog breeds and how
+          breed affects a dog's experience in a shelter. Pitbulls, for example,
+          tend to be seen as fairly aggressive and dangerous dogs, so I want to
+          explore how a Pitbull's time in a shelter differs from perhaps a 
+          Dachshund's. I also want to explore how adoption rates change in 
+          relation to other characteristics such as Age, Sex, or even month
+          of the year."),
+        p("In addition to my own analysis, I want to provide tools that others
+          could use to conduct their own analysis and find other patterns and
+          trends."),
+        
+        h1("What is the Austin Animal Center?"),
+        p("The", a(href = "http://www.austintexas.gov/department/aac",
+          strong("Austin Animal Center")), "is the largest No-Kill Animal Shelter
+          in the United States. The center provides shelter to over 16,000 
+          animals per year as well as animal protection and other pet resource
+          services to the Austin and Travis Counties of Texas State. The Austin
+          Animal Center is an open-intake facility that accepts all lost and
+          surrendered animals from all of Travis County in need of shelter
+          regardless of age, health, species or breed with a goal to \"place all
+          adoptable animals in forever homes\". Since March of 2010, the Center
+          has saved ", em("over 90%"), " of the animals in their shelter and has
+          been providing government-funded neutering and spaying surgeries,
+          vaccinations, microchipping, an more under Austin's No-Kill
+          implementation plan."),
+        
+        h1("The Data"),
         p("I obtained this data from ", 
-          a(href = "https://www.kaggle.com/aaronschlegel/austin-animal-center-shelter-intakes-and-outcomes",
-                                        strong("Kaggle")),
+          a(href = "https://www.kaggle.com/aaronschlegel/austin-animal-center-
+            shelter-intakes-and-outcomes", strong("Kaggle")),
           "on the 27th of July, 2019."),
         p("Aaron Schlegel, a data analyst based in Seattle, Washington, maintains
-          this data. However, Schelgel derived this data from",
+          the data. However, Schelgel derived it from",
           a(href = "https://data.austintexas.gov/",
-            strong("the Official City of Austin Open Data Portal")),"."
-          )
+            strong("the Official City of Austin Open Data Portal")),
+            ". Although the data from the portal is updated regularly, Schlegel's
+              data was last updated in April of 2018. Schlegel's dataset utilizes
+          two datasets from the Austin Portal (Animal Shelter Outcomes and Animal
+          Shelter Intakes) to create a third dataset for animals that the Austin
+          Animal Shelter both took in and released within the timeframe between 
+          October 1st of 2013 and April of 2018. This third dataset is what most
+          of my analysis is based on."
+          ),
+        h2("Preliminary Analysis"),
+        
+        br()
     )
     )
   #)
