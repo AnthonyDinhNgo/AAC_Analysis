@@ -169,7 +169,7 @@ intro_page <- tabPanel(
 
 #scatter_tab####################################################################
 scatter_tab <- tabPanel(
-  strong("Explore Pets"),
+  strong("Pet Explorer"),
   div(class = "content",
   sidebarLayout(
     sidebarPanel = sidebarPanel(
@@ -194,9 +194,7 @@ scatter_tab <- tabPanel(
     mainPanel = mainPanel(
       div(
         class = "main",
-        p("With this table, we want to be able to understand how age affects
-            the value of a player. Below, we can see the distribution of the
-            transfer fees of the different ages of players"),
+        h1("Pet Explorer"),
         hr(),
         plotlyOutput("p1")
       )
@@ -224,9 +222,7 @@ time_tab <- tabPanel(
   mainPanel = mainPanel(
     div(
       class = "main",
-      p("With this table, we want to be able to understand how age affects
-        the value of a player. Below, we can see the distribution of the
-        transfer fees of the different ages of players"),
+      h1("Adoptions over Time"),
       hr(),
       plotlyOutput("p2")
       )
@@ -364,7 +360,8 @@ radar_tab <- tabPanel(
     )
     ),
     mainPanel = mainPanel(class = "main",
-                          p("Content"),
+                          h1("Dogs vs Cats"),
+                          hr(),
                           plotlyOutput("p3_dog"),
                           plotlyOutput("p3_cat")
                           )

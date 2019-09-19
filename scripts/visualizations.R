@@ -281,7 +281,9 @@ radar <- function(in_out_df, breed1_name, breed2_name, animal, outcome){
           visible = T,
           range = c(0,1)
         )
-      )
+      ),
+      paper_bgcolor = 'rgba(0,0,0,0)',
+      plot_bgcolor='rgba(0,0,0,0)'
     )
   p
 }
