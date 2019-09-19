@@ -27,6 +27,9 @@ info_in <- summary_info_in(in_df)
 info_out <- summary_info_out(out_df)
 info_in_out <- summary_info_in_out(in_out_df)
 
+#Analysis Charts################################################################
+cat_time <- ggplotly2(time_series(in_out_df, c("Cat"), T))
+
 
 #Intro##########################################################################
 intro_page <- tabPanel(
@@ -369,7 +372,27 @@ radar_tab <- tabPanel(
   )
 )
 #analysis_tab###################################################################
-analysis_tab <- tabPanel(strong("Analysis"))
+analysis_tab <- tabPanel(
+  strong("Analysis"),
+  div(class = "info_content",
+      br(),
+      br(),
+      h1("Analysis"),
+      h2("Cat Adoptions over Time"),
+      cat_time,
+      p("I found that although cat adoptions tend to be less frequent than dog
+        adoptions during one month of every year. Every July, the number of cat
+        adoptions is greater than at any other month of the given year. 
+        Initially, I felt that this was by random chance. Perhaps people yearn
+        more for feline companions around this time of the year. However, after
+        looking into the ",
+        a(href = "https://www.facebook.com/AustinAnimalCenter/",
+          strong("Austin Animal Center's Facebook page")), 
+        "and their activity history, I realize that this trend is better 
+        accredited to the events that the AAC hosts around July every year that
+        is focused on promoting feline adoption such as their annual 
+        KittyPalooza! and 2019's Hakuna MaCATa.")
+                             ))
 #UI#############################################################################
 ui <- fluidPage(
   includeCSS("www/intro.CSS"),

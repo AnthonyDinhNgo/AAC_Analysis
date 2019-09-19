@@ -144,3 +144,10 @@ h3 span.border{
   margin-bottom: 3%;
   font-weight: bold;
 }
+
+.main h2{
+  color: var(--accent-color);
+  filter:brightness(0.95);
+  margin-top: 2%;
+  font-weight: bold;
+}
