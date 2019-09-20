@@ -382,8 +382,6 @@ radar_tab <- tabPanel(
                                         plotlyOutput("p3_dog"),
                                         plotlyOutput("p3_cat"))
                           )
-                          #plotlyOutput("p3_dog"),
-                          #plotlyOutput("p3_cat")
                           )
   )
   )

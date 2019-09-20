@@ -605,4 +605,3 @@ non_pitbull_euthan_pie <- function(out_df) {
   p
 }
 
-non_pitbull_euthan_pie(out_df)

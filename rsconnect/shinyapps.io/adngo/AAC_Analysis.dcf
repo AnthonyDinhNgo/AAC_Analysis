@@ -1,0 +1,12 @@
+name: AAC_Analysis
+title: AAC_Analysis
+username:
+account: adngo
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1223938
+bundleId: 2430582
+url: https://adngo.shinyapps.io/AAC_Analysis/
+when: 1569012665.19669
+asMultiple: FALSE
+asStatic: FALSE
