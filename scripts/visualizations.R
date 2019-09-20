@@ -512,23 +512,97 @@ in_bars <- function(in_df){
     )
   ggplotly2(bar)
 }
+#Euthanasia Pie#################################################################
+#pitbull Euthanasia#############################################################
+pitbull_euthan_pie <- function(out_df) {
+  df <- out_df %>% 
+    filter(breed %in% c("Pit Bull", "Pit Bull Mix"), outcome_type == "Euthanasia") %>% 
+    group_by(outcome_subtype) %>% 
+    mutate(freq = length(outcome_subtype)) %>% 
+    select(outcome_subtype, freq) %>% 
+    ungroup() %>%
+    mutate(prop = freq / length(outcome_subtype)) %>% 
+    unique() %>% 
+    arrange(outcome_subtype)
+  p <- plot_ly(
+    data = df,
+    labels = ~outcome_subtype,
+    values = ~freq,
+    sort = F,
+    marker = list(colors = c(
+      "#999999",
+      "#E69F00",
+      "#56B4E9",
+      "#009E73",
+      "#F0E442",
+      "#0072B2",
+      "#D55E00",
+      "#CC79A7")
+      ),
+    textinfo = 'none'
+    
+    )%>%
+    add_pie(hole = 0.6) %>%
+    layout(
+      title = "Reasons for Pit Bull Euthanasia",
+      xaxis = list(title = 'Date'),
+      yaxis = list(side = 'left', title = 'Frequency'),
+      polar = list(
+        radialaxis = list(
+          visible = T,
+          range = c(0,1)
+        )
+      ),
+      paper_bgcolor = 'rgba(0,0,0,0)',
+      plot_bgcolor='rgba(0,0,0,0)'
+    )
+  p
+}
 
-out_df %>% 
-  filter(breed %in% c("Pit Bull", "Pit Bull Mix"), outcome_type == "Euthanasia") %>% 
-  group_by(outcome_subtype) %>% 
-  mutate(freq = length(outcome_subtype)) %>% 
-  select(outcome_subtype, freq) %>% 
-  ungroup() %>%
-  mutate(prop = freq / length(outcome_subtype)) %>% 
-  unique() %>% 
-  arrange(freq)
+#non_pitbull Euthanasia#########################################################
+non_pitbull_euthan_pie <- function(out_df) {
+  df <- out_df %>% 
+    filter(!(breed %in% c("Pit Bull", "Pit Bull Mix")), outcome_type == "Euthanasia") %>% 
+    group_by(outcome_subtype) %>% 
+    mutate(freq = length(outcome_subtype)) %>% 
+    select(outcome_subtype, freq) %>% 
+    ungroup() %>%
+    mutate(prop = freq / length(outcome_subtype)) %>% 
+    unique() %>% 
+    arrange(outcome_subtype)
+  
+  p <- plot_ly(
+    data = df,
+    labels = ~outcome_subtype,
+    values = ~freq,
+    sort = F,
+    marker = list(colors = c(
+      "#999999",
+      "#E69F00",
+      "#56B4E9",
+      "#009E73",
+      "#F0E442",
+      "#0072B2",
+      "#D55E00",
+      "#CC79A7",
+      "#601A4A")),
+    textinfo = 'none'
+    
+  )%>%
+    add_pie(hole = 0.6) %>%
+    layout(
+      title = "Reasons for non-Pit Bull Euthanasia\n\n",
+      xaxis = list(categoryarray = ~outcome_subtype, categoryorder = "array"),
+      polar = list(
+        radialaxis = list(
+          visible = T,
+          range = c(0,1)
+        )
+      ),
+      paper_bgcolor = 'rgba(0,0,0,0)',
+      plot_bgcolor='rgba(0,0,0,0)'
+    )
+  p
+}
 
-out_df %>% 
-  filter(!(breed %in% c("Pit Bull", "Pit Bull Mix")), outcome_type == "Euthanasia") %>% 
-  group_by(outcome_subtype) %>% 
-  mutate(freq = length(outcome_subtype)) %>% 
-  select(outcome_subtype, freq) %>% 
-  ungroup() %>%
-  mutate(prop = freq / length(outcome_subtype)) %>% 
-  unique() %>% 
-  arrange(freq)
+non_pitbull_euthan_pie(out_df)

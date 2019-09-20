@@ -34,6 +34,8 @@ black_cats_time <- black_cats_in_out_time(in_df, out_df)
 nonblack_cats_time <- nonblack_cats_in_out_time(in_df, out_df)
 out_bar <- out_bars(out_df)
 in_bar <- in_bars(in_df)
+pitbull_donut <- pitbull_euthan_pie(out_df)
+non_pitbull_donut <- non_pitbull_euthan_pie(out_df)
 
 #Intro##########################################################################
 intro_page <- tabPanel(
@@ -392,6 +394,7 @@ analysis_tab <- tabPanel(
         United States that provides care and shelter to over 18,000 animals 
         each year. The time frame for all visualizations is from 2013 Q4 to
         2018 Q1."),
+      br(),hr(),br(),
       ##########################################################################      
       h2("Cat Adoptions over Time"),br(),
       cat_time,
@@ -492,8 +495,57 @@ analysis_tab <- tabPanel(
         bulls are less likely to be abandoned/lost by their owners compared to 
         other dog breeds and when they are, they're more likely to be returned to 
         their original owners too."),
+      ##########################################################################
       h2("Are Pitbulls Aggressive?"),
       br(),
+      fluidRow(
+        splitLayout(cellWidths = c("50%", "50%"),
+                    pitbull_donut, non_pitbull_donut)
+      ),
+      p("0 means that there was no reason given for euthanasia"),
+      br(),hr(),br(),
+      p("Pit bulls and pit bull mixes are more likely to be euthanized for being
+        aggressive than to be euthanized for other reasons such as rabies or 
+        suffering. Around 53% of pit bulls being euthanized are euthanized for
+        being too aggressive whereas only 5% of other breeds being euthanized 
+        for being too aggressive. This could be for a few reasons. It's 
+        possible that pit bulls are in fact more aggressive than other dog 
+        breeds. They were, in fact, bred specifically for their agression and to
+        be used in ",
+        a(href = "http://love-a-bull.org/resources/the-history-of-pit-bulls/",
+          target = "_blank",
+          strong("bull baiting")),
+        " and dog fighting. It's also possible that pit bulls are perceived as 
+        more dangerous ", em("if"), " they are aggressive, so the shelter is 
+        more likely to euthanize an aggressive pit bull than they are to 
+        euthanize an aggressive pomeranian. In either case, pit bulls, like any
+        other canine, are a product of both nature and nurture. Genetics play a
+        role, meaning they could be more predisposed to be more aggressive, but 
+        so does how the dog was raised. Aggressive behavior could be prevented 
+        and mitigated. The ",
+        a(href = 
+            "https://www.aspca.org/about-us/
+          aspca-policy-and-position-statements/position-statement-pit-bulls",
+          target = "_blank",
+          strong("ASPCA")),
+        " has a great statement on pit bulls if you'd like to read more about
+        the breed."
+        ),
+      h1("Final Statement"),
+      p("If you're planning on getting a pet, please consider adopting from a 
+        shelter. Adoption fees tend to be cheaper at shelters and the animals
+        there are in urgent need of a loving home. Not only will you be bringing
+        a loving animal into your family, but you'll also be saving a life. 
+        I strongly suggest conducting some research on pets before adopting to 
+        make an informed decision. ",
+        a(href = "https://www.cleartheshelters.com/",
+          target = "_blank",
+          strong("Clear the Shelters")),
+        " is a great resource to read upon if you're considering adopting a pet"),
+      br(),
+      br(),
+      br(),
+      hr(),
       br()
                              ))
 #UI#############################################################################
