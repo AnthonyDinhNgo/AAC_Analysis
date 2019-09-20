@@ -32,6 +32,8 @@ info_in_out <- summary_info_in_out(in_out_df)
 cat_time <- ggplotly2(time_series(in_out_df, c("Cat", "Dog"), T))
 black_cats_time <- black_cats_in_out_time(in_df, out_df)
 nonblack_cats_time <- nonblack_cats_in_out_time(in_df, out_df)
+out_bar <- out_bars(out_df)
+in_bar <- in_bars(in_df)
 
 #Intro##########################################################################
 intro_page <- tabPanel(
@@ -460,7 +462,10 @@ analysis_tab <- tabPanel(
         adoptions to owner surrenders (usually about 4:1). "
         ),
       ##########################################################################
-      h2("Pit Bulls"),
+      h2("Pit Bulls vs Other Breeds"),
+      out_bar,
+      br(),hr(),br(),
+      in_bar,
       br(),hr(),br(),
       p(""),
       br()

@@ -435,8 +435,9 @@ nonblack_cats_in_out_time <- function(in_df, out_df){
 
 
 #Pitbull vs All Outcomes########################################################
-bars <- function(out_df){
+out_bars <- function(out_df){
   df <- out_df %>% 
+    filter(animal_type == "Dog") %>% 
     mutate(
       isPitbull = (breed %in% c("Pit Bull", "Pit Bull Mix"))
     ) %>% 
@@ -452,22 +453,64 @@ bars <- function(out_df){
     filter(outcome_type != "") %>% 
     unique()
   
-  ggplot(df)+
-    geom_bar(aes(x = outcome_type, y = outcome_prop, fill = isPitbull), 
-    stat="identity", position = "dodge", width = 0.7)+
+  bar <- ggplot(df)+
+    geom_bar(aes(x = reorder(outcome_type, -outcome_prop),
+                 y = outcome_prop,
+                 fill = isPitbull,
+                 text=sprintf("Outcome: %s<br>Proportion: %s",
+                              outcome_type, round(outcome_prop, 2))), 
+    stat="identity", position = position_dodge2(reverse = TRUE), width = 0.7)+
     scale_fill_manual("Result\n",
-                      values = c("red","blue"), 
+                      values = c("#7fcd89","#6d94da"), 
                       labels = c("Other", "Pit Bull or Pit Bull Mix")) +
     labs(
       title = "Pitbull Outcomes vs Other",
       x="\nOutcome",
       y="Proportion\n") +
+    guides(fill = guide_legend(reverse = TRUE))+
     theme(
       rect = element_rect(fill = "transparent"),
-      axis.text.x = element_text(angle=-60, hjust=1)
+      axis.text.x = element_text(angle=60, hjust=1)
     )
+  ggplotly(bar)
 }
 
-bars_df <- bars(out_df)
-bars_df
 #Pitbull vs All Intakes#########################################################
+in_bars <- function(in_df){
+  df <- in_df %>% 
+    filter(animal_type == "Dog") %>% 
+    mutate(
+      isPitbull = (breed %in% c("Pit Bull", "Pit Bull Mix"))
+    ) %>% 
+    group_by(isPitbull) %>% 
+    mutate(freq = length(isPitbull)) %>% 
+    group_by(isPitbull, intake_type) %>% 
+    mutate(intake_prop = length(intake_type) / freq)%>% 
+    select(
+      isPitbull,
+      intake_type,
+      intake_prop
+    ) %>% 
+    unique()
+  
+  bar <- ggplot(df)+
+    geom_bar(aes(x = reorder(intake_type, -intake_prop),
+                 y = intake_prop,
+                 fill = isPitbull,
+                 text=sprintf("Intake: %s<br>Proportion: %s",
+                              intake_type, round(intake_prop,2))), 
+             stat="identity", position = position_dodge2(reverse = TRUE), width = 0.7)+
+    scale_fill_manual("Result\n",
+                      values = c("#7fcd89","#6d94da"), 
+                      labels = c("Other", "Pit Bull or Pit Bull Mix")) +
+    labs(
+      title = "Pitbull Intakes vs Other",
+      x="\nIntake",
+      y="Proportion\n") +
+    guides(fill = guide_legend(reverse = TRUE))+
+    theme(
+      rect = element_rect(fill = "transparent"),
+      axis.text.x = element_text(angle=60, hjust=1)
+    )
+  ggplotly(bar)
+}
