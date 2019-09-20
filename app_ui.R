@@ -393,7 +393,7 @@ analysis_tab <- tabPanel(
         each year. The time frame for all visualizations is from 2013 Q4 to
         2018 Q1."),
       ##########################################################################      
-      h2("Cat Adoptions over Time"),
+      h2("Cat Adoptions over Time"),br(),
       cat_time,
       br(),hr(),br(),
       p("I found that dog adoptions tend to be more frequent than Cat adoptions
@@ -443,7 +443,7 @@ analysis_tab <- tabPanel(
         inadvertently promotes cats as well."
         ),
       ##########################################################################
-      h2("A Black Cat's Year"),
+      h2("A Black Cat's Year"),br(),
       black_cats_time,
       br(),hr(),br(),
       nonblack_cats_time,
@@ -463,11 +463,37 @@ analysis_tab <- tabPanel(
         ),
       ##########################################################################
       h2("Pit Bulls vs Other Breeds"),
+      p("In this analysis, we'll be considering pit bulls as both purebred pit
+        bulls as well as pit bull mixes"),br(),
       out_bar,
       br(),hr(),br(),
+      p("Pit bulls tend to have a reputation for being aggressive. Potential 
+        owners tend to see this breed of canine as dangerous and belligerent and
+        therefore avoid them as pets. The rate of adoption for pit bulls as 
+        opposed to other dog species reflects this aversion. Pit bulls and 
+        pitbull mixes have an adoption rate 10% lower than the average dog. Of
+        all pit bulls leaving the Austin Animal Shelter, 37% are adopted while 
+        47% of other species are adopted. Furthermore, the proportion of pit
+        bulls that are euthanized (0.07) is twice the proportion of other
+        dog breeds(0.03). However, owners who ", em("have"), " adopted pit bulls
+        tend to be more attached to their animal than owners of other dog 
+        breeds. Pit bulls who come into the AAC, whether through being found in
+        the streets or being surrendered by their owner, are returned to their 
+        owner at a proportion of of 0.35. This implies that pit bull owners are
+        more likely usually to want to re-adopt their pit bull after being
+        detached from him/her for some time more compared to owners of other
+        breeds. Other dog breeds have a return to owner proportion of 0.28."
+      ),br(),
       in_bar,
       br(),hr(),br(),
-      p(""),
+      p("Also supporting the idea that pit bull owners are more attached to 
+        their pets is that pit bulls are less likely to be found as a stray or 
+        to be surrendered to the Austin Animal Shelter. This implies that pit 
+        bulls are less likely to be abandoned/lost by their owners compared to 
+        other dog breeds and when they are, they're more likely to be returned to 
+        their original owners too."),
+      h2("Are Pitbulls Aggressive?"),
+      br(),
       br()
                              ))
 #UI#############################################################################

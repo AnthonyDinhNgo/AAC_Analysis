@@ -117,8 +117,7 @@ time_series <- function(in_out_df, animal, sep){
       ylab("Total Adoptions")+
       ggtitle(paste("Total",
                     toString(animal),
-                    "Adoption Trends between 2014 and 2018"))+
-      theme_bw()
+                    "Adoption Trends between 2014 and 2018"))
   }
 }
 
@@ -513,3 +512,23 @@ in_bars <- function(in_df){
     )
   ggplotly2(bar)
 }
+
+out_df %>% 
+  filter(breed %in% c("Pit Bull", "Pit Bull Mix"), outcome_type == "Euthanasia") %>% 
+  group_by(outcome_subtype) %>% 
+  mutate(freq = length(outcome_subtype)) %>% 
+  select(outcome_subtype, freq) %>% 
+  ungroup() %>%
+  mutate(prop = freq / length(outcome_subtype)) %>% 
+  unique() %>% 
+  arrange(freq)
+
+out_df %>% 
+  filter(!(breed %in% c("Pit Bull", "Pit Bull Mix")), outcome_type == "Euthanasia") %>% 
+  group_by(outcome_subtype) %>% 
+  mutate(freq = length(outcome_subtype)) %>% 
+  select(outcome_subtype, freq) %>% 
+  ungroup() %>%
+  mutate(prop = freq / length(outcome_subtype)) %>% 
+  unique() %>% 
+  arrange(freq)
