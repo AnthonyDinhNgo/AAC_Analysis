@@ -287,3 +287,187 @@ radar <- function(in_out_df, breed1_name, breed2_name, animal, outcome){
     )
   p
 }
+
+
+#One-Off Vis####################################################################
+#Black Cats#####################################################################
+black_cats_in_out_time <- function(in_df, out_df){
+  intakes <- in_df %>% 
+    filter(animal_type == "Cat",
+           intake_type == "Owner Surrender",
+           color == "Black") %>% 
+    mutate(
+      year_month = substr(datetime, 0,7)
+    ) %>% 
+    group_by(year_month) %>% 
+    mutate(
+      in_freq = length(year_month)
+    ) %>% 
+    select(year_month, in_freq) %>% 
+    unique() %>% 
+    arrange(year_month)
+  
+  outcomes <- out_df %>% 
+    filter(animal_type == "Cat",
+           outcome_type == "Adoption",
+           color == "Black"
+    ) %>% 
+    mutate(
+      year_month = substr(datetime, 0,7)
+    ) %>% 
+    group_by(year_month) %>% 
+    mutate(
+      out_freq = length(year_month)
+    ) %>% 
+    select(year_month, out_freq) %>% 
+    unique() %>% 
+    arrange(year_month)
+  
+  df <- merge(intakes, outcomes)
+  
+  p <- plot_ly(df) %>% 
+    add_trace(
+      x = ~year_month,
+      y = ~in_freq, 
+      type = 'scatter',
+      mode = 'lines',
+      name = 'Owner Surrenders',
+      hoverinfo = "text",
+      text = ~paste("Owner Surrender\nDate : ", year_month,
+                    "\nFrequency : ", in_freq)
+    ) %>% 
+    add_trace(
+      x = ~year_month,
+      y = ~out_freq,
+      type = 'scatter',
+      mode = 'lines',
+      name = 'Adoptions',
+      hoverinfo = "text",
+      text = ~paste("Adoption\nDate : ", year_month,
+                    "\nFrequency : ", out_freq)
+    )%>%
+    layout(
+      title = "Adoptions vs Owner Surrenders of Black Cats between 2014 and 2018",
+      xaxis = list(title = 'Date'),
+      yaxis = list(side = 'left', title = 'Frequency'),
+      polar = list(
+        radialaxis = list(
+          visible = T,
+          range = c(0,1)
+        )
+      ),
+      paper_bgcolor = 'rgba(0,0,0,0)',
+      plot_bgcolor='rgba(0,0,0,0)'
+    )
+  p
+}
+#nonBlack Cats##################################################################
+nonblack_cats_in_out_time <- function(in_df, out_df){
+  intakes <- in_df %>% 
+    filter(animal_type == "Cat",
+           intake_type == "Owner Surrender",
+           color != "Black") %>% 
+    mutate(
+      year_month = substr(datetime, 0,7)
+    ) %>% 
+    group_by(year_month) %>% 
+    mutate(
+      in_freq = length(year_month)
+    ) %>% 
+    select(year_month, in_freq) %>% 
+    unique() %>% 
+    arrange(year_month)
+  
+  outcomes <- out_df %>% 
+    filter(animal_type == "Cat",
+           outcome_type == "Adoption",
+           color != "Black"
+    ) %>% 
+    mutate(
+      year_month = substr(datetime, 0,7)
+    ) %>% 
+    group_by(year_month) %>% 
+    mutate(
+      out_freq = length(year_month)
+    ) %>% 
+    select(year_month, out_freq) %>% 
+    unique() %>% 
+    arrange(year_month)
+  
+  df <- merge(intakes, outcomes)
+  
+  p <- plot_ly(df) %>% 
+    add_trace(
+      x = ~year_month,
+      y = ~in_freq, 
+      type = 'scatter',
+      mode = 'lines',
+      name = 'Owner Surrenders',
+      hoverinfo = "text",
+      text = ~paste("Owner Surrender\nDate : ", year_month,
+                    "\nFrequency : ", in_freq)
+    ) %>% 
+    add_trace(
+      x = ~year_month,
+      y = ~out_freq,
+      type = 'scatter',
+      mode = 'lines',
+      name = 'Adoptions',
+      hoverinfo = "text",
+      text = ~paste("Adoption\nDate : ", year_month,
+                    "\nFrequency : ", out_freq)
+    )%>%
+    layout(
+      title = "Adoptions vs Owner Surrenders of non-Black Cats between 2014 and 2018",
+      xaxis = list(title = 'Date'),
+      yaxis = list(side = 'left', title = 'Frequency'),
+      polar = list(
+        radialaxis = list(
+          visible = T,
+          range = c(0,1)
+        )
+      ),
+      paper_bgcolor = 'rgba(0,0,0,0)',
+      plot_bgcolor='rgba(0,0,0,0)'
+    )
+  p
+}
+
+
+#Pitbull vs All Outcomes########################################################
+bars <- function(out_df){
+  df <- out_df %>% 
+    mutate(
+      isPitbull = (breed %in% c("Pit Bull", "Pit Bull Mix"))
+    ) %>% 
+    group_by(isPitbull) %>% 
+    mutate(freq = length(isPitbull)) %>% 
+    group_by(isPitbull, outcome_type) %>% 
+    mutate(outcome_prop = length(outcome_type) / freq)%>% 
+    select(
+      isPitbull,
+      outcome_type,
+      outcome_prop
+    ) %>% 
+    filter(outcome_type != "") %>% 
+    unique()
+  
+  ggplot(df)+
+    geom_bar(aes(x = outcome_type, y = outcome_prop, fill = isPitbull), 
+    stat="identity", position = "dodge", width = 0.7)+
+    scale_fill_manual("Result\n",
+                      values = c("red","blue"), 
+                      labels = c("Other", "Pit Bull or Pit Bull Mix")) +
+    labs(
+      title = "Pitbull Outcomes vs Other",
+      x="\nOutcome",
+      y="Proportion\n") +
+    theme(
+      rect = element_rect(fill = "transparent"),
+      axis.text.x = element_text(angle=-60, hjust=1)
+    )
+}
+
+bars_df <- bars(out_df)
+bars_df
+#Pitbull vs All Intakes#########################################################

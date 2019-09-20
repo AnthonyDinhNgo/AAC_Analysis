@@ -2,6 +2,7 @@ library(shiny)
 library(plotly)
 library(jpeg)
 library(shinyWidgets)
+source("scripts/visualizations.R")
 source("scripts/summary_info.R")
 source("scripts/aggregate_table.R")
 
@@ -28,8 +29,9 @@ info_out <- summary_info_out(out_df)
 info_in_out <- summary_info_in_out(in_out_df)
 
 #Analysis Charts################################################################
-cat_time <- ggplotly2(time_series(in_out_df, c("Cat"), T))
-
+cat_time <- ggplotly2(time_series(in_out_df, c("Cat", "Dog"), T))
+black_cats_time <- black_cats_in_out_time(in_df, out_df)
+nonblack_cats_time <- nonblack_cats_in_out_time(in_df, out_df)
 
 #Intro##########################################################################
 intro_page <- tabPanel(
@@ -53,9 +55,9 @@ intro_page <- tabPanel(
           however, I'm interested in what such data could imply or reveal. I'm
           an advocate for adopting pets from animal shelters and pounds
           as opposed to from breeders and puppy mills. According to the ",
-          a(href = "https://www.americanpetproducts.org/", strong("American Pet
-                                                                  Products
-                                                                  Association")),
+          a(href = "https://www.americanpetproducts.org/",
+            target = "_blank",
+            strong("American Pet Products Association")),
           "of the 44% of households that own dogs, 34% of those households 
           adopted their dog from breeders while only 23% of those households
           adopted their dog from either an animal shelter or human society.
@@ -67,6 +69,7 @@ intro_page <- tabPanel(
           ),
         p("Additionally, according to the",
           a(href = "https://www.aspca.org/",
+            target = "_blank",
             strong("American Society for the Prevention of Cruelty to Animals")),
           " about 3.2 million shelter animals are adopted each year. However,",
           em("6.5 million"), " pets are taken into animal shelters each year
@@ -90,6 +93,7 @@ intro_page <- tabPanel(
         
         h1("What is the Austin Animal Center?"),
         p("The", a(href = "http://www.austintexas.gov/department/aac",
+                   target = "_blank",
           strong("Austin Animal Center")), "is the largest No-Kill Animal Shelter
           in the United States. The center provides shelter to over 16,000 
           animals per year as well as animal protection and other pet resource
@@ -106,11 +110,14 @@ intro_page <- tabPanel(
         h1("The Data"),
         p("I obtained this data from ", 
           a(href = "https://www.kaggle.com/aaronschlegel/austin-animal-center-
-            shelter-intakes-and-outcomes", strong("Kaggle")),
+            shelter-intakes-and-outcomes",
+            target = "_blank",
+            strong("Kaggle")),
           "on the 27th of July, 2019."),
         p("Aaron Schlegel, a data analyst based in Seattle, Washington, maintains
           the data. However, Schelgel derived it from",
           a(href = "https://data.austintexas.gov/",
+            target = "_blank",
             strong("the Official City of Austin Open Data Portal")),
             ". Although the data from the portal is updated regularly, Schlegel's
               data was last updated in April of 2018. Schlegel's dataset utilizes
@@ -378,20 +385,85 @@ analysis_tab <- tabPanel(
       br(),
       br(),
       h1("Analysis"),
+      p("Exploratory Analysis on the the Austin Animal Shelter Dataset using R.
+        The Austin Animal Center is the largest no-kill animal shelter in the 
+        United States that provides care and shelter to over 18,000 animals 
+        each year. The time frame for all visualizations is from 2013 Q4 to
+        2018 Q1."),
+      ##########################################################################      
       h2("Cat Adoptions over Time"),
       cat_time,
-      p("I found that although cat adoptions tend to be less frequent than dog
-        adoptions during one month of every year. Every July, the number of cat
-        adoptions is greater than at any other month of the given year. 
-        Initially, I felt that this was by random chance. Perhaps people yearn
+      br(),hr(),br(),
+      p("I found that dog adoptions tend to be more frequent than Cat adoptions
+        most of any given year. However, for one month of the year, the number
+        of cat adoptions is exceeds the number of dog adoptions. Every July,
+        there's a large spike in the frequency of cat adoptions while the 
+        number of dog adoptions tends to be more consistent over the year.
+        Initially, I felt that this spike was because of some psychological or
+        social behavior that makes cats more popular. Perhaps people yearn
         more for feline companions around this time of the year. However, after
         looking into the ",
         a(href = "https://www.facebook.com/AustinAnimalCenter/",
+          target = "_blank",
           strong("Austin Animal Center's Facebook page")), 
         "and their activity history, I realize that this trend is better 
         accredited to the events that the AAC hosts around July every year that
         is focused on promoting feline adoption such as their annual 
-        KittyPalooza! and 2019's Hakuna MaCATa.")
+        KittyPalooza! and 2019's Hakuna MaCATa."),
+      p("These events seem to be very effective, making July have an adoption
+        frequency ", em("30% greater on average"), " than the month with the
+        second highest adoption count. Furthermore, the event seems to have a
+        lingering effect as well. The number of cat adoptions doesn't just spike 
+        for the month of July and immediately fall back down the very next month.
+        Starting in March or April of every year, the number of cat adoptions
+        gradually and consistently increases until July. After July, the number
+        of cat adoptions slowly fall back down. That is, until around the months
+        of October and November."
+        ), 
+      p("Around October and November of every year, there is a slight increase
+        in cat adoptions. Although there are events around this time that 
+        promote the adoption of feline companions, this trend occurred in years
+        where there were no events promoting cats. At least, this trend isn't 
+        easily accredited to any event that ",
+        em("the Austin Animal Center specifically hosts."),
+        "I attribute this slight jump in adoption frequency to Halloween.
+        There's been a cliche about Satanic Cults adopting cats around this time
+        to be used in demonic rituals and sacrifices. Although this is a dark 
+        and ominous theory that fits in well with the Halloween theme, according
+        to ",
+        a(href = "https://www.snopes.com/fact-check/cat-o-nine-tales/",
+          target = "_blank",
+          strong("Snopes")),
+        ", this is very much a myth. Nevertheless, cat adoptions are still
+        increased during the time of Halloween. This idea surrounding Satanic
+        Cults adopting cats still contribute to the increase of feline adoptions
+        around this time. Advertisements for Halloween using this trope 
+        inadvertently promotes cats as well."
+        ),
+      ##########################################################################
+      h2("A Black Cat's Year"),
+      black_cats_time,
+      br(),hr(),br(),
+      nonblack_cats_time,
+      br(),hr(),br(),
+      p("After looking further the relationship between cat adoptions and 
+        Halloween, I wanted to start looking into black cats specifically. Black
+        cats are generally less popular than other colors of felines. One reason
+        for this is the superstition of black cats being \"unlucky\". 
+        Furthermore, many shelters specifically forbids the adoption of black
+        cats around the time of Halloween in order to both prevent the myth of 
+        satanic rituals as well as to deter people who wish to adopt black cats
+        simply as Halloween \"props\". However, I found that this isn't 
+        necessarily the case at the Austin Animal Center. In fact, black cats
+        have been recently increasing in popularity. Both black cats and
+        non-black cats share identical yearly patterns and identical ratios of
+        adoptions to owner surrenders (usually about 4:1). "
+        ),
+      ##########################################################################
+      h2("Pit Bulls"),
+      br(),hr(),br(),
+      p(""),
+      br()
                              ))
 #UI#############################################################################
 ui <- fluidPage(

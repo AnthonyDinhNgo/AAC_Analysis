@@ -16,7 +16,7 @@ ag_table <- function(df){
     filter(outcome_type == "Adoption") %>% 
     group_by(animal_type) %>% 
     mutate(
-      `Adoption %` = `Adoptions` / `Frequency`
+      `Adoption %` = paste(100 *round(`Adoptions` / `Frequency`, 2), "%")
         ) %>% 
     select(
       animal_type,
