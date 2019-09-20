@@ -439,12 +439,13 @@ out_bars <- function(out_df){
   df <- out_df %>% 
     filter(animal_type == "Dog") %>% 
     mutate(
-      isPitbull = (breed %in% c("Pit Bull", "Pit Bull Mix"))
+      isPitbull1 = (breed %in% c("Pit Bull", "Pit Bull Mix"))
     ) %>% 
-    group_by(isPitbull) %>% 
-    mutate(freq = length(isPitbull)) %>% 
-    group_by(isPitbull, outcome_type) %>% 
-    mutate(outcome_prop = length(outcome_type) / freq)%>% 
+    group_by(isPitbull1) %>% 
+    mutate(freq = length(isPitbull1)) %>% 
+    group_by(isPitbull1, outcome_type) %>% 
+    mutate(outcome_prop = length(outcome_type) / freq,
+           isPitbull = ifelse(isPitbull1, "Pit Bull or Pit Bull Mix", "Other"))%>%  
     select(
       isPitbull,
       outcome_type,
@@ -460,19 +461,18 @@ out_bars <- function(out_df){
                  text=sprintf("Outcome: %s<br>Proportion: %s",
                               outcome_type, round(outcome_prop, 2))), 
     stat="identity", position = position_dodge2(reverse = TRUE), width = 0.7)+
-    scale_fill_manual("Result\n",
+    scale_fill_manual("Breed\n",
                       values = c("#7fcd89","#6d94da"), 
                       labels = c("Other", "Pit Bull or Pit Bull Mix")) +
     labs(
       title = "Pitbull Outcomes vs Other",
       x="\nOutcome",
       y="Proportion\n") +
-    guides(fill = guide_legend(reverse = TRUE))+
     theme(
       rect = element_rect(fill = "transparent"),
       axis.text.x = element_text(angle=60, hjust=1)
     )
-  ggplotly(bar)
+  ggplotly2(bar)
 }
 
 #Pitbull vs All Intakes#########################################################
@@ -480,12 +480,13 @@ in_bars <- function(in_df){
   df <- in_df %>% 
     filter(animal_type == "Dog") %>% 
     mutate(
-      isPitbull = (breed %in% c("Pit Bull", "Pit Bull Mix"))
+      isPitbull1 = (breed %in% c("Pit Bull", "Pit Bull Mix"))
     ) %>% 
-    group_by(isPitbull) %>% 
-    mutate(freq = length(isPitbull)) %>% 
-    group_by(isPitbull, intake_type) %>% 
-    mutate(intake_prop = length(intake_type) / freq)%>% 
+    group_by(isPitbull1) %>% 
+    mutate(freq = length(isPitbull1)) %>% 
+    group_by(isPitbull1, intake_type) %>% 
+    mutate(intake_prop = length(intake_type) / freq,
+           isPitbull = ifelse(isPitbull1, "Pit Bull or Pit Bull Mix", "Other"))%>% 
     select(
       isPitbull,
       intake_type,
@@ -500,17 +501,15 @@ in_bars <- function(in_df){
                  text=sprintf("Intake: %s<br>Proportion: %s",
                               intake_type, round(intake_prop,2))), 
              stat="identity", position = position_dodge2(reverse = TRUE), width = 0.7)+
-    scale_fill_manual("Result\n",
-                      values = c("#7fcd89","#6d94da"), 
-                      labels = c("Other", "Pit Bull or Pit Bull Mix")) +
+    scale_fill_manual(name = "Breed\n",
+                      values = c("#7fcd89","#6d94da")) +
     labs(
       title = "Pitbull Intakes vs Other",
       x="\nIntake",
       y="Proportion\n") +
-    guides(fill = guide_legend(reverse = TRUE))+
     theme(
       rect = element_rect(fill = "transparent"),
       axis.text.x = element_text(angle=60, hjust=1)
     )
-  ggplotly(bar)
+  ggplotly2(bar)
 }
