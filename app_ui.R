@@ -376,8 +376,14 @@ radar_tab <- tabPanel(
     mainPanel = mainPanel(class = "main",
                           h1("Dogs vs Cats"),
                           hr(),
-                          plotlyOutput("p3_dog"),
-                          plotlyOutput("p3_cat")
+                          
+                          fluidRow(
+                            splitLayout(cellWidths = c("50%", "50%"),
+                                        plotlyOutput("p3_dog"),
+                                        plotlyOutput("p3_cat"))
+                          )
+                          #plotlyOutput("p3_dog"),
+                          #plotlyOutput("p3_cat")
                           )
   )
   )
