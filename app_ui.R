@@ -42,13 +42,15 @@ intro_page <- tabPanel(
   strong("Intro"),
     #div(class = "intro",
     #titlePanel(
-      div(class = "title",div(class = "title_text",
-      h1(strong(span(class = "border","Analysis on the"))),
-      h1(strong(span(class = "border","Austin Animal Center"))),
-      h3(span(class = "border","by Anthony Ngo"))
+      div(class = "title",
+          img(src = "intro_banner.png"),
+          div(class = "title_text",
+          h1(strong(span(class = "border","Analysis on the"))),
+          h1(strong(span(class = "border","Austin Animal Center"))),
+          h3(span(class = "border","by Anthony Ngo"))
       )
       ),
-    div(class = "info_content",
+    div(class = "intro_content",
         h1("Purpose"),
         p("I wanted to run exploratory data analysis on a dataset related to
           something I'm passionate about. After looking around on a few portals 
@@ -555,10 +557,17 @@ analysis_tab <- tabPanel(
 #UI#############################################################################
 ui <- fluidPage(
   includeCSS("www/intro.CSS"),
+  titlePanel(
+    windowTitle = "AAC Analysis",
+    title = tags$head(tags$link(rel="shortcut icon", 
+                                href="Icon_4_black.png", 
+                                type="icon"))),
+  #title ="My App",
   navbarPage(
     a(href = "http://anthonydinhngo.github.io",
       style = "text-decoration: none;",
-      img(src = 'Icon_4_white.png')
+      img(src = 'Icon_4_white.png'),
+      alt = "Austin Animal Center Analysis"
       ),id = "navbar",collapsable=F,
     intro_page,
     scatter_tab,
